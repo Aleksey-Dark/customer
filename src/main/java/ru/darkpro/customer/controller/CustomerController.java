@@ -11,21 +11,23 @@ import ru.darkpro.customer.repository.CustomerRepository;
 @AllArgsConstructor
 public class CustomerController {
 
-    private final CustomerRepository repository;
+//    @Autowired
+    private CustomerRepository customerRepository;
 
     @GetMapping(path = "/customer/{customerId}")
     public Customer getCustomer(@PathVariable long customerId) {
-        return repository.findById(customerId);
+        return customerRepository.findById(customerId);
     }
 
-    @PostMapping(path = "/register/customer")
-    public Customer registerCustomer(@RequestBody String data) {
+    @PostMapping(path = "/customer/register")
+    public String registerCustomer(@RequestBody String data) {
         JSONObject customerJson = new JSONObject(new JSONTokener(data));
-        Customer customer = repository.findByPhone(customerJson.getString("phone"));
+        Customer customer = customerRepository.findByPhone(customerJson.getString("phone"));
         if (customer == null) {
-            return repository.save(new Customer(customerJson.getString("firstName"),
-                    customerJson.getString("lastName"), customerJson.getString("phone")));
+            customer = new Customer(customerJson.getString("firstName"),
+                    customerJson.getString("lastName"), customerJson.getString("phone"));
+            customerRepository.save(customer);
         }
-        return customer;
+        return String.format("{\"id\":%s}", customer.getId());
     }
 }
