@@ -1,24 +1,35 @@
 package ru.darkpro.customer.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
+@Table(name = "T_CUSTOMER")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Customer {
-
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="customer_seq")
+//    @SequenceGenerator(name="customer_seq", sequenceName="SEQ_CUSTOMER", allocationSize=10)
+    @Column(name="id", updatable=false, nullable=false)
     private Long id;
     private String firstName;
     private String lastName;
+    @JsonIgnore
     private String phone;
 
-//    private List<Order> orders;
+    @OneToMany
+    @JoinColumn(name = "customer_id")
+    private final List<Order> orders = new ArrayList<>();
 
-    protected Customer() {}
+//    @Query("select ba from BankAccount ba where ba.user.id in :ids")
+//    List<BankAccount> findByUserIds(@Param("ids") Set<Long> ids);
 
     public Customer(String firstName, String lastName, String phone) {
         this.firstName = firstName;
