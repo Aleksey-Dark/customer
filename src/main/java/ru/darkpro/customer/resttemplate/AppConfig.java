@@ -1,5 +1,6 @@
 package ru.darkpro.customer.resttemplate;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -23,5 +24,10 @@ public class AppConfig {
     @DependsOn(value = {"customRestTemplate"})
     public RestTemplateBuilder restTemplateBuilder() {
         return new RestTemplateBuilder(customRestTemplate());
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 }

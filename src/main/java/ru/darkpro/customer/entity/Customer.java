@@ -42,20 +42,20 @@ public class Customer {
                 id, firstName, lastName);
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
+//    public Long getId() {
+//        return id;
+//    }
+//
+//    public String getFirstName() {
+//        return firstName;
+//    }
+//
+//    public String getLastName() {
+//        return lastName;
+//    }
+//
+//    public String getPhone() {
+//        return phone;
+//    }
 
 }

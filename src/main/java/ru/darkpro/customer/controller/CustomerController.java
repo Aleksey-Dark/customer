@@ -1,7 +1,9 @@
 package ru.darkpro.customer.controller;
 
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
+import ru.darkpro.customer.dto.CustomerDto;
 import ru.darkpro.customer.entity.Customer;
 import ru.darkpro.customer.service.CustomerService;
 import ru.darkpro.customer.service.WebHookService;
@@ -13,20 +15,21 @@ public class CustomerController {
 
     private final CustomerService customerService;
     private final WebHookService webHookService;
+    private ModelMapper modelMapper;
 
     @GetMapping(path = "/customer/{customerId}")
-    public Customer findById(@PathVariable long customerId) {
-        return customerService.get(customerId);
+    public CustomerDto findById(@PathVariable long customerId) {
+        return modelMapper.map(customerService.get(customerId), CustomerDto.class);
     }
 
     @PostMapping(path = "/customer/register")
-    public String registerCustomer(@RequestBody Customer customer) {
+    public CustomerDto registerCustomer(@RequestBody Customer customer) {
         if (customerService.validation(customer)) {
             webHookService.send(customer);
             if (customerService.register(customer)){
-                return String.format("{\"id\":%s}", customer.getId());
+                return modelMapper.map(customer, CustomerDto.class);
             }
         }
-        return "{\"id\":null}";
+        return new CustomerDto();
     }
 }

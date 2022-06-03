@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -35,6 +36,7 @@ public class Order {
         this.customer = customer;
         this.value = value;
         this.comment = comment;
+//        this.createdAt = Timestamp.valueOf(LocalDateTime.now());
     }
 
     @Override
