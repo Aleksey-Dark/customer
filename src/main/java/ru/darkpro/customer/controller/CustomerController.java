@@ -1,6 +1,8 @@
 package ru.darkpro.customer.controller;
 
 import lombok.AllArgsConstructor;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 import org.springframework.web.bind.annotation.*;
 import ru.darkpro.customer.entity.Customer;
 import ru.darkpro.customer.service.CustomerService;
@@ -19,6 +21,6 @@ public class CustomerController {
 
     @PostMapping(path = "/customer/register")
     public String registerCustomer(@RequestBody String body) {
-        return customerService.register(customerService.validation(body));
+        return customerService.register(customerService.validation(new JSONObject(new JSONTokener(body))));
     }
 }

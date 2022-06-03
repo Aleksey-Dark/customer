@@ -24,7 +24,6 @@ public class CustomerService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public String register(Customer customer){
         if (customer != null) {
-            webHook.send();
             try {
                 customerRepository.save(customer);
 
@@ -37,13 +36,13 @@ public class CustomerService {
         return "{\"id\":null}";
     }
 
-    public Customer validation(String body){
-        JSONObject customerJson = new JSONObject(new JSONTokener(body));
+    public Customer validation(JSONObject customerJson){
         Customer customer = customerRepository.findByPhone(customerJson.getString("phone"));
         if (customer == null){
             try {
                 customer = new Customer(customerJson.getString("firstName"),
                         customerJson.getString("lastName"), customerJson.getString("phone"));
+                webHook.send();
             } catch (JSONException e) {
                 System.out.println(e.getMessage());
             }
