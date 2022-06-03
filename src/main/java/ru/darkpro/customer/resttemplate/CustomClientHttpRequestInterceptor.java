@@ -2,10 +2,12 @@ package ru.darkpro.customer.resttemplate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
+import ru.darkpro.customer.service.WebHookService;
 
 import java.io.IOException;
 
