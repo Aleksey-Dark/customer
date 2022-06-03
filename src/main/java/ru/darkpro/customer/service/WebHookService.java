@@ -20,7 +20,7 @@ public class WebHookService {
     }
 
     @Async
-    public void send(){
-        restTemplate.getForEntity(uri, String.class);
+    public void send(Object request){
+        restTemplate.postForEntity(uri, request, String.class);
     }
 }

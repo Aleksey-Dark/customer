@@ -21,12 +21,12 @@ public class Customer {
     private Long id;
     private String firstName;
     private String lastName;
-    @JsonIgnore
+//    @JsonIgnore
     @Column(unique=true)
     private String phone;
 
     @OneToMany
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customer")
     private final List<Order> orders = new ArrayList<>();
 
     public Customer(String firstName, String lastName, String phone) {

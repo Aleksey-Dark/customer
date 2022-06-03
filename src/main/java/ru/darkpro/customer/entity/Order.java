@@ -27,14 +27,14 @@ public class Order {
     @CreationTimestamp
     private Timestamp createdAt;
 //    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "customer_id")
-    private long customer_id;
+//    @JsonIgnore
+    @JoinColumn(name = "customer")
+    private long customer;
 
-    public Order(Long customer, String firstName, String lastName) {
-        this.customer_id = customer;
-        this.value = firstName;
-        this.comment = lastName;
+    public Order(Long customer, String value, String comment) {
+        this.customer = customer;
+        this.value = value;
+        this.comment = comment;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class Order {
         return createdAt;
     }
 
-    public Long getCustomerId() {
-        return customer_id;
+    public Long getCustomer() {
+        return customer;
     }
 }

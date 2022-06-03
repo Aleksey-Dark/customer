@@ -1,26 +1,32 @@
 package ru.darkpro.customer.controller;
 
 import lombok.AllArgsConstructor;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 import org.springframework.web.bind.annotation.*;
 import ru.darkpro.customer.entity.Customer;
 import ru.darkpro.customer.service.CustomerService;
+import ru.darkpro.customer.service.WebHookService;
 
 
 @RestController
 @AllArgsConstructor
 public class CustomerController {
 
-    private CustomerService customerService;
+    private final CustomerService customerService;
+    private final WebHookService webHookService;
 
     @GetMapping(path = "/customer/{customerId}")
-    public Customer getCustomer(@PathVariable long customerId) {
+    public Customer findById(@PathVariable long customerId) {
         return customerService.get(customerId);
     }
 
     @PostMapping(path = "/customer/register")
-    public String registerCustomer(@RequestBody String body) {
-        return customerService.register(customerService.validation(new JSONObject(new JSONTokener(body))));
+    public String registerCustomer(@RequestBody Customer customer) {
+        if (customerService.validation(customer)) {
+            webHookService.send(customer);
+            if (customerService.register(customer)){
+                return String.format("{\"id\":%s}", customer.getId());
+            }
+        }
+        return "{\"id\":null}";
     }
 }
