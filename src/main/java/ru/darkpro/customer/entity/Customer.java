@@ -22,14 +22,12 @@ public class Customer {
     private String firstName;
     private String lastName;
     @JsonIgnore
+    @Column(unique=true)
     private String phone;
 
     @OneToMany
     @JoinColumn(name = "customer_id")
     private final List<Order> orders = new ArrayList<>();
-
-//    @Query("select ba from BankAccount ba where ba.user.id in :ids")
-//    List<BankAccount> findByUserIds(@Param("ids") Set<Long> ids);
 
     public Customer(String firstName, String lastName, String phone) {
         this.firstName = firstName;
@@ -60,7 +58,4 @@ public class Customer {
         return phone;
     }
 
-//    public List<Order> getOrders() {
-//        return orders;
-//    }
 }
