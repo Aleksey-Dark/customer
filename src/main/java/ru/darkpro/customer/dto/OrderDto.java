@@ -14,11 +14,10 @@ import java.sql.Timestamp;
 public class OrderDto {
 
     private Long id;
-
     private String value;
     private String comment;
     private Timestamp createdAt;
-    @JsonIgnore
+//    @JsonIgnore
     private long customer;
 
     @Override

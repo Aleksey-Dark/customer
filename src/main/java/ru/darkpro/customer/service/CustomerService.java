@@ -14,7 +14,7 @@ public class CustomerService {
     private CustomerRepository customerRepository;
 
     public Customer get(@PathVariable long customerId) {
-        return customerRepository.findById(customerId);
+            return customerRepository.findById(customerId);
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)

@@ -19,15 +19,20 @@ public class CustomerController {
 
     @GetMapping(path = "/customer/{customerId}")
     public CustomerDto findById(@PathVariable long customerId) {
-        return modelMapper.map(customerService.get(customerId), CustomerDto.class);
+        Customer customer = customerService.get(customerId);
+        if (customer != null) {
+            return modelMapper.map(customer, CustomerDto.class);
+        }
+        return new CustomerDto();
     }
 
     @PostMapping(path = "/customer/register")
     public CustomerDto registerCustomer(@RequestBody Customer customer) {
         if (customerService.validation(customer)) {
-            webHookService.send(customer);
             if (customerService.register(customer)){
-                return modelMapper.map(customer, CustomerDto.class);
+                CustomerDto customerDto = modelMapper.map(customer, CustomerDto.class);
+                webHookService.send(customerDto);
+                return customerDto;
             }
         }
         return new CustomerDto();

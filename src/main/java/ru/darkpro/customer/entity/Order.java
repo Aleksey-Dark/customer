@@ -27,7 +27,7 @@ public class Order {
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private Timestamp createdAt;
-//    @ManyToOne
+
 //    @JsonIgnore
     @JoinColumn(name = "customer")
     private long customer;
@@ -44,25 +44,5 @@ public class Order {
         return String.format(
                 "Order[id=%d, value='%s', comment='%s', createdAt='%s']",
                 id, value, comment, createdAt);
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
-
-    public Long getCustomer() {
-        return customer;
     }
 }
